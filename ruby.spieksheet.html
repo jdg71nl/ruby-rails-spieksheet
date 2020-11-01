@@ -17,9 +17,12 @@
 <pre><code class="ruby">
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+  # https://www.linkedin.com/learning/ruby-essential-training-part-1-the-basics/
+
+  # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # variable
 
-  $global_var = 12 # convention: var in 'snake_case'
+  $global_var = 12 # convention: var in 'snake_case' with letters_digits_underscore
   def global_method
     local_var = 34
     ["one", "two"].reverse.each {|block_var| puts "#{ block_var.capitalize }" }
@@ -383,13 +386,119 @@
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # Merge methods
 
+  h1 = {a:2, b:4, c:6}
+  h2 = {a:3, b:4, d:8}
+  h1.merge(h2)          # {:a=>3, :b=>4, :c=>6, :d=>8}
+  h2.merge(h1)          # {:a=>2, :b=>4, :c=>6, :d=>8}
+
+  # note: block is ONLY called when keys match
+  h1.merge(h2) {|key,old,new| new }         # is default
+
+  h1.merge(h2) {|k,o,n| o < n ? o : n }     # {:a=>2, :b=>4, :c=>6, :d=>8}
+
+  h1.merge(h2) {|k,o,n| o * n }             # {:a=>6, :b=>16, :c=>6, :d=>8}
 
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
-  # Item
+  # Custom Methods
+
+  # method name: use lowercase with underscores, 'snake_case' with letters_digits_underscore
+  # last character can also be: ? ! =
+  my_method?  # returns boolean
+  my_method!  # saves in place
+  my_method=  # dunno
+
+  # define the method:
+  def welcome
+    puts "Hello world!"
+  end                   # note that the return value is default 'nil' (is result of puts)
+
+  # call the method:
+  welcome
+
+  def blanket_patterns(colors, lines)
+    lines.times do |i|
+      first = colors[0]
+      rest  = colors[1..-1]
+      colors = rest + first
+      puts colors
+    end
+  end
+  blanket_patterns('++*~~*++*',20)
+
+  def volume(x,y,z)
+    x * y * z
+  end
+  volume(2,3,4)   # 24
+
+  def volume x,y,z
+    x * y * z
+  end
+  volume 2,3,4    # 24
+
+  # parentheses
+  # - always optional
+  # convention:
+  # - methods with    args do     use parentheses
+  # - methods without args do not use parentheses
+  #
+
+  # default argument values
+  def welcome(greet, name, punct='!')
+    greet + ' ' + name + punct
+  end
+  puts welcome('Hello', 'friend')         # Hello friend!
+  puts welcome('Hello', 'friend', '?')    # Hello friend?
+
+  def out_of_stock(items=[])
+    items.find_all {|item| item.qty == 0}
+  end
+
+  def method_with_default_values(required_arg1, required_arg2, optional_arg1=nil, optional_arg2=[])
+    do_something
+  end
+
+  # common ruby pattern is to use a: options hash !
+  def welcome(greeting, options={})
+    name  = options[:name]  || 'friend'
+    punct = options[:punct] || '!'
+    greeting + name + punct
+  end
+
+  # return value by default is the last operation's value
+  # or explicitly:
+  def some
+    return "return_string"
+  end
+
+  # best Practice: explicit return by restating:
+  def subtract(n1, n2)
+    result = n1 - n2
+    result = 0 if result < 0
+    result
+  end
+
+  # Ruby methods can only return ONE value
+  # use Array or Hash to return multiple values
+  def add_and_subtract(n1, n2)
+    add = n1 + n2
+    sub = n1 - n2
+    {:add => add, :sub => sub}
+  end
+  result = add_and_subtract(8,3)
+  a = result[:add]
+  s = result[:sub]
+
+  # or use return-array and assign directly:
+  def add_and_subtract(n1, n2)
+    add = n1 + n2
+    sub = n1 - n2
+    [add, sub]
+  end
+  a, s = add_and_subtract(8,3)
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
-  # Item
+  # https://www.linkedin.com/learning/ruby-essential-training-part-2-classes-and-modules/
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # Item
