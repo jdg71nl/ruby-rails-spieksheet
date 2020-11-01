@@ -15,15 +15,48 @@
   <!-- - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - -->
 
   <pre><code class="ruby">
+    # vars
     $global_var = 12 # convention: var in 'snake_case'
     def global_method
       local_var = 34
+      ["one", "two"].reverse.each {|block_var| puts "#{ block_var.capitalize }" }
     end
     class ClassInCamelCase
       def Classmethod
-        @class_var = 56
+        @@class_var = 56
+        @instance_var = 78
       end
     end
+    100.class # returns name of the class
+
+    # strings
+    my_string = "Hello"
+    puts my_string + ' ' + "World!"
+    "Yada " * 3 # returns "Yada Yada Yada "
+    escaped_string = 'Let\'s escape!'
+
+    # arrays
+    my_array = [1,2,3, "also a string is allowed"]
+    my_array << 'appended'
+    my_array << ['appended array', 'some more']
+    my_array[0] = "zero-based index"
+    my_array[-1] # returns ["appended array", "some more"]
+    my_array[-2] # returns "appended"
+    my_array.length # synonym: my_array.size
+    my_array.reverse! # use '!' to save the string in place
+    my_array.push # .pop .shift .unshift
+    [1,2,3] + [4,5,6] # concatenate arrays
+
+    # hash
+    my_hash = {'key1' => 'value1', 'key2' => 'value2'}
+    my_hash.keys
+    my_hash.values
+    my_hash['key1'] = 'new value1'
+    my_hash.to_a # convert to array, returns: [["key1", "new value1"], ["key2", "value2"]]
+
+    # symbols
+
+    
   </code></pre>
 
  <!-- - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - -->
