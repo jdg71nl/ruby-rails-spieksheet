@@ -15,7 +15,7 @@
   <!-- - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - -->
 
   <pre><code class="ruby">
-    # vars
+    # variable
     $global_var = 12 # convention: var in 'snake_case'
     def global_method
       local_var = 34
@@ -28,14 +28,15 @@
       end
     end
     100.class # returns name of the class
+    MY_CONSTANT = 90 # convention is all-caps, but Ruby only inspects first letter to be capital
 
-    # strings
+    # string
     my_string = "Hello"
     puts my_string + ' ' + "World!"
     "Yada " * 3 # returns "Yada Yada Yada "
     escaped_string = 'Let\'s escape!'
 
-    # arrays
+    # array
     my_array = [1,2,3, "also a string is allowed"]
     my_array << 'appended'
     my_array << ['appended array', 'some more']
@@ -54,9 +55,56 @@
     my_hash['key1'] = 'new value1'
     my_hash.to_a # convert to array, returns: [["key1", "new value1"], ["key2", "value2"]]
 
-    # symbols
+    # symbol
+    # Symbol is kind of 'read-only-string', start with colon, no delimiters, used as keys in hash
+    :my_symbol.class # returns Symbol
+    my_hash = {"string_key" => "value1", :symbol_key => "value2"}
+    my_hash["string_key"] # returns "value1"
+    my_hash[:symbol_key]  # returns "value2"
+    # symbols are global unique instance-like things:
+    "string".object_id  # 70253774726280
+    "string".object_id  # 70253774744700
+    :symbol.object_id   # 881628
+    :symbol.object_id   # 881628
+    equivalent_hash = {:low => 2, :high => 8, :avg => 6} # rocket notation
+    equivalent_hash = {low: 2, high: 8, avg: 6} # shorthand notation
 
-    
+    # boolean
+    my_boolean = true
+    my_boolean = false
+    # comparisons: == < > <= >= ! != && ||
+    [1,2,3].include?(1)     # true
+    2.between?(1,5)         # true
+    {'a'=>1}.has_key?('a')  # true
+    {'a'=>1}.has_key?(:a)   # false
+    {'a'=>1}.has_value?(1)  # true
+
+    # range
+    inclusive_range = 1..10    #
+    exclusive_range = 1...10   #
+    exclusive_range = *1...10  # convert to array: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    (1..10).class  # Range
+    (1..10).first  #  1, alias: begin
+    (1..10).last   # 10, alias: end
+    ('a'..'m').include?('g')  # true
+
+    # nil
+    my_nil_var = nil
+    my_nil_var == false  # false
+    my_nil_var == nil    # true
+    my_nil_var.nil?      # true
+    !my_nil_var          # true
+    my_test_var = my_nil_var || 'default value'  # "default value"
+
+    # conditional control structure
+    if boolean_expression_1
+      statement_1
+    elsif boolean_expression_2
+      statement_2
+    else
+      statement_3
+    end
+
   </code></pre>
 
  <!-- - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - -->
