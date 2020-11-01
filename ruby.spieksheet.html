@@ -96,7 +96,8 @@
     !my_nil_var          # true
     my_test_var = my_nil_var || 'default value'  # "default value"
 
-    # conditional control structure
+    # control structures
+    #
     if boolean_expression_1
       statement_1
     elsif boolean_expression_2
@@ -104,6 +105,86 @@
     else
       statement_3
     end
+    #
+    unless boolean_expression  # is negation of if..end
+      statement_1
+    end
+    #
+    case                         # note: no 'variable' after case
+    when boolean_expression_1
+      statement_1
+    when boolean_expression_2
+      statement_2
+    else
+      statement_3
+    end
+    #
+    case integer_test_variable
+    when 1
+      statement_1
+    when 2..5
+      statement_2
+    else
+      statement_3
+    end
+    #
+    result = boolean_expression ? "value if true" | "value if false"
+    #
+    result = variable_possibly_nil_or_false || variable_default
+    x ||= y  # equivalent to: x = y unless x
+
+    # loop structures
+    i = 5
+    loop do
+      break if i <= 0
+      puts "Countdown: #{i}"
+      i -= 1
+    end
+    #
+    i = 5
+    while i > 0
+      puts "Countdown: #{i}"
+      i -= 1
+    end
+    #
+    i = 5
+    until i <= 0
+      puts "Countdown: #{i}"
+      i -= 1
+    end
+
+    # iterator
+    i = 5
+    i.times do
+      puts "Countdown: #{i}"
+      i -= 1
+    end
+    #
+    5.times     { puts "some" }
+    1.upto(5)   { puts "some" }
+    5.downto(1) { puts "some" }
+    (1..5).each { puts "some" }
+    #
+    5.downto(1) do |i|
+      puts "Countdown: #{i}"
+    end
+    #
+    5.downto(1) {|i| puts "Countdown: #{i}"}
+    #
+    numbers : .times .upto .downto .step
+    range   : .each .step
+    string  : .each_line .each_char .each_byte
+    array   : .each .each_index .each_with_index
+    hash    : .each .each_key .each_value .each_pair
+    https://ruby-doc.org/core-2.7.2/Hash.html#method-i-each_pair
+    #
+    fruits = ['banana', 'apple', 'pear']
+    fruits.each {|fruit| puts fruit.capitalize}
+    for fruit in fruits {puts fruit.capitalize}
+    [1,2,3].each {|x| puts "#{x}"}
+    
+
+
 
   </code></pre>
 
