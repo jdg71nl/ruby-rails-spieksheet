@@ -1,37 +1,36 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- <title>Ruby.SS</title> -->
-  <!-- https://highlightjs.org/usage/ -->
-  <link rel="stylesheet" href="styles/default.css">
-  <script src="highlight.pack.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
+  <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Ruby.SS</title>
+  <link rel="stylesheet" href="styles/default.css"> <!-- https://highlightjs.org/usage/ -->
+  <script src="highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <style>
-  body {
-    margin:0;
-    border:0;
-    padding: 1em;
-    font-family: tahoma, Arial, verdana, "Lucida Sans Unicode";
-    font-size: 1em;
-  }
+  body { margin:0; border:0; padding: 1em; font-family: tahoma, Arial, verdana, "Lucida Sans Unicode"; font-size: 1em; }
   pre { border: solid 1px black;}
 </style>
 <body>
   <h3>Ruby.SS (SpiekSheet)</h3>
-<!--
-  <pre><code class="html">...</code></pre>
-  <pre><code class="plaintext">...</code></pre>
-  <pre><code class="nohighlight">...</code></pre>
--->
+  <!-- - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - -->
+
   <pre><code class="ruby">
-    class CamelCase
-      def method
-        puts "some"
+    $global_var = 12 # convention: var in 'snake_case'
+    def global_method
+      local_var = 34
+    end
+    class ClassInCamelCase
+      def Classmethod
+        @class_var = 56
       end
     end
   </code></pre>
+
+ <!-- - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - -->
+  <!--
+    <pre><code class="html">...</code></pre>
+    <pre><code class="plaintext">...</code></pre>
+    <pre><code class="nohighlight">...</code></pre>
+  -->
 </body>
 </html>
