@@ -356,11 +356,16 @@ end                                         # ["pear", "apple", "banana"]
 
 x = fruits.sort_by {|fruit| fruit.length}   # ["pear", "apple", "banana"]
 
+hash = {a:4,c:5,b:3}
+hash.sort {|p1,p2| p1[0] <=> p2[0]}         # [[:a, 4], [:b, 3], [:c, 5]]
 
-
+hash = {a:4,c:5,b:3}
+hash.sort {|p1,p2| p1[1] <=> p2[1]}         # [[:b, 3], [:a, 4], [:c, 5]]
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
-# Item
+# Merge methods
+
+
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # Item
