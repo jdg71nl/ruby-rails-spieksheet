@@ -592,6 +592,330 @@ private
   end
 end
 
+# initialize method (called automatically when .new() is called)
+class Animal
+  attr_accessor :noise
+  def initialize()
+    @noise = 'Oink!'
+  end
+end
+pig = Animal.new
+
+# common to call initialize with options-hash argument:
+class Animal
+  attr_accessor :noise
+  def initialize(options={})
+    @noise = options[:noise] || 'Grrr!'
+  end
+end
+pig = Animal.new({name: 'Oink!'})
+
+# - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+# Class methods and attributes (not Instance methods!)
+
+# ask the Class something (that maybe is not related to a specific instance)
+Animal.new
+Invoice.find(3812)
+Bicycle.all_brands
+
+class SomeClass
+  def self.method_name
+  end
+end
+
+# in documentation use '#' to denote an instance-method:
+Array.new   # Class method
+Array#size  # Instance method
+
+class Animal
+  @@species = ['cat', 'cow', 'dog', 'duck', 'horse', 'pig']
+  @@total_animals = 0
+  @@current_animals = []
+  def initialize
+    @@total_animals += 1
+    @@current_animals << self
+  end
+  def self.species
+    @@species
+  end
+end
+
+# in Ruby,  there is no attr_* method equivalent
+# in Rails, there is: cattr_* methods equivalent
+
+# but there are reader/writer methods:
+class Animal
+  @@species = ['cat', 'cow', 'dog', 'duck', 'horse', 'pig']
+
+  def self.species
+    @@species
+  end
+
+  def self.species=(array)
+    return unless array.is_a?(array)
+    @@species = array
+  end
+
+  end
+end
+
+# - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+# Class Inheritance
+
+class Animal
+  attr_accessor :noise
+end
+
+class Pig < Animal
+  def initialize
+    @noise = 'Oink!'
+  end
+end
+
+class Cow < Animal
+  def initialize
+    @noise = 'Moo!'
+  end
+end
+
+# override and extend
+class Sofa
+  @@can_open = false
+  attr_accessor :width, :length
+  def area
+    width * length
+  end
+end
+
+class SofaBed < Sofa
+  @@can_open = true
+  attr_accessor :length_opened, :is_open
+  def area
+    is_open ? width * length_opened : width * length
+  def area_better
+    is_open ? width * length_opened : super
+  end
+end
+
+irb>
+sof = SofaBed.new
+sof.width = 2
+sof.length = 3
+sof.length_opened = 4
+sof.area
+sof.is_open = true
+sof.area
+
+# - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+# Time
+
+# Ruby stores time as number of seconds since January 1, 1970
+# can have fraction
+
+Time.now        # 2020-11-02 20:54:40 +0100
+Time.now.to_i   # 1604346886
+Time.new(year, month, day, hour, min, sec, utc_offset)
+tomorrow = Time.now + (60*60*24)
+tomorrow.year       # 2020
+tomorrow.yday       # 308
+tomorrow.wday       # 2
+tomorrow.sunday?    # false
+tomorrow.tuesday?   # true
+Time.now.nsec       # 278155000
+Time.now.zone       # "CET"
+Time.now.dst?     #false
+Time.now.gmtime  # 2020-11-02 20:00:13 UTC
+
+# Date
+
+# Date = similar to Time, but includes additional methods, but in STL and need to load
+require 'date'
+Date.today                    #<Date: 2020-11-02 ((2459156j,0s,0n),+0s,2299161j)>
+Date.today.month              # 11
+Date.new(2018,10,1)           #<Date: 2018-10-01 ((2458393j,0s,0n),+0s,2299161j)>
+Date.new(2018,10,1).to_time   # 2018-10-01 00:00:00 +0200
+Time.now.to_date              #<Date: 2020-11-02 ((2459156j,0s,0n),+0s,2299161j)>
+Date.today.leap?        # true
+Date.today.cweek        # 45
+Date.today.cwday        # 1
+Date.today.next_day     #<Date: 2020-11-03 ((2459157j,0s,0n),+0s,2299161j)>
+Date.today.prev_day     #<Date: 2020-11-01 ((2459155j,0s,0n),+0s,2299161j)>
+Date.today.gregorian?   # true
+Date.today.julian?      # false
+
+# DateTime
+
+# 'DateTime' is subclass of 'Date' (only use this for historican time, see docs)
+# load is same:
+require 'date'
+DateTime.now            #<DateTime: 2020-11-02T21:08:58+01:00 ((2459156j,72538s,370498000n),+3600s,2299161j)>
+DateTime.new(2016,10,1,2,45,0,'+7')   #<DateTime: 2016-10-01T02:45:00+07:00 ((2457662j,71100s,0n),+25200s,2299161j)>
+DateTime.now.to_time    # 2020-11-02 21:09:32 +0100
+Time.now.to_datetime    #<DateTime: 2020-11-02T21:09:35+01:00 ((2459156j,72575s,440158000n),+3600s,2299161j)>
+
+# - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+# Modules : Namespacing
+
+module MakeSparks
+  class Date
+    # ...
+  end
+end
+
+dinner = MakeSparks::Date.new
+dinner.date = Date.new
+
+# Modules : Mixins
+
+# Ruby only allows some class to inherit from one superclass
+# instead: share code in package and include as 'mixin' (like Swift:protocol)
+
+module Nameable
+  attr_accessor :first_name, :last_name
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+end
+
+module ContactInfo
+  attr_accessor :city, :state, :zip
+  def city_state_zip
+    "#{city}, #{state} #{zip}"
+  end
+end
+
+class Person
+  include Nameable
+  include ContactInfo
+end
+
+class Supplier
+  include ContactInfo
+end
+
+# - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+# Load, require, include
+
+# load source file in-place
+load 'file' # returns: true or false
+
+# load source file in-place, but only once
+require 'package' # returns: true or false
+
+require 'date'  # expects file to be in $LOAD_PATH
+require '/Users/bsmith/project/classes/customer'
+require_relative 'modules/addressable'
+
+# - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+# Exceptions
+
+# are classes for handling exceptional events
+
+# rescue in code block:
+begin
+  1/0
+rescue
+  puts "exception handled"
+end
+
+# rescue in method:
+def divide(x,y)
+  x / y
+rescue
+  puts "exception handled"
+end
+
+# rescue on different types:
+def divide(x,y)
+  x / y
+rescue ZeroDivisionError
+  puts "ZeroDivisionError handled"
+rescue TypeError, ArgumentError
+  puts "TypeError or ArgumentError handled"
+rescue => e
+  puts "#{e.class} handled"
+end
+
+# likewise:
+Exception#class
+Exception#message
+Exception#backtrace
+Exception#full_message
+
+# raise an error:
+def even_numbers(array)
+  unless array.is_a?(array)
+    raise ArgumentError
+  end
+  if array.length == 0
+    raise StandardError.new("Too few arguments")
+  end
+  array.find_all {|el| el.to_i % 2 == 0 }
+end
+
+# raise a 'default' exception:
+class Radio
+  def volume=(value)
+    if value < 1 || value > 10
+      raise "Too loud!"
+    end
+    @volume = value
+  end
+end
+begin
+  r = Radio.new
+  r.volume = 20
+rescue RunTimeError => e
+  puts e.message
+end
+
+# create and raise custom exception class:
+class TooLoudError < StandardError
+  def initialize(msg=nil)
+    super(msg || "Too loud!")
+  end
+end
+class Radio
+  def volume=(value)
+    if value < 1 || value > 10
+      raise TooLoudError
+    end
+    @volume = value
+  end
+end
+begin
+  r = Radio.new
+  r.volume = 20
+rescue TooLoudError => e
+  puts e.message
+end
+
+# create and raise custom exception class WITH extra info:
+class TooLoudError < StandardError
+  attr_reader :volume
+  def initialize(value, msg=nil)
+    super(msg || "Too loud!")
+    @volume = value
+  end
+end
+class Radio
+  def volume=(value)
+    if value < 1 || value > 10
+      raise TooLoudError.new(value)
+    end
+    @volume = value
+  end
+end
+begin
+  r = Radio.new
+  r.volume = 20
+rescue TooLoudError => e
+  puts "Volume #{e.volume}: #{e.message}"
+end
+
+# - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+# https://www.linkedin.com/learning/ruby-essential-training-part-3-files-formats-templates/
+
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # Item
 
