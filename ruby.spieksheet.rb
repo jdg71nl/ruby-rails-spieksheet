@@ -917,9 +917,189 @@ end
 # https://www.linkedin.com/learning/ruby-essential-training-part-3-files-formats-templates/
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
-# Item
+# I/O and Files
+
+puts "string adds newline"
+print "string adds no newline, so do it yourself!\n"
+read = gets.chomp
+
+# Class File < IO
+
+# instead of: /shared/lib/myfile.rb
+# instead of: C:\shared\lib\myfile.rb
+# better use:
+File.join('shared', 'lib', 'myfile.rb')   # "shared/lib/myfile.rb"
+
+__FILE__
+File.expand_path(__FILE__)
+File.dirname(__FILE__)
+File.expand_path(File.dirname(__FILE__))
+__dir__
+
+# create new file:
+file = File.new(filepath, 'w')
+file.do_stuff
+file.close
+
+# open existing file:
+File.open(filepath, 'w') do |file|
+  # do_stuff
+end # file auto close!
+
+# write to a file:
+file = File.new('groceries.txt', 'w')
+file.puts "Grocery List"
+file.print "+ butter\n"
+file.write "+ milk\n"
+file << "+ sugar\n"
+file.close
+
+# read from a file (by characters):
+file = File.new('groceries.txt', 'r')
+string1 = file.read(4)
+string2 = file.read(4)
+file.close
+
+# read from a file (by characters):
+file = File.new('groceries.txt', 'r')
+line1 = file.gets.chomp
+line2 = file.gets.chomp
+line3 = file.gets.chomp
+line4 = file.gets.chomp
+file.eof?               # true
+file.close
+
+# read all lines:
+File.open('groceries.txt', 'r') do |file|
+  while line = file.gets
+    puts line.chomp.reverse
+  end
+end # file auto close!
+
+# or better:
+File.open('groceries.txt', 'r') do |file|
+  file.each_line do |line|
+    puts line.chomp.reverse
+  end
+end # file auto close!
+
+file = File.new('groceries.txt', 'r')
+string1 = file.read(4)
+file.pos      # 4
+file.pos += 6
+file.pos = 20
+file.rewind
+
+# with line-numbers:
+File.open('groceries.txt', 'r') do |file|
+  while line = file.gets
+    puts "Line #{file.lineno}: #{line}"
+  end
+end # file auto close!
+
+# read a file at once:
+blob = File.read(filepath)
+
+# or as array:
+array = File.readlines(filepath)  # does not remove newline
+
+# write at once:
+File.write(filepath, string)
+
+File.rename(oldname, newname)
+File.delete(filepath)
+
+# for copy need to include:
+require 'fileutils'
+FileUtils.copy(ori_path, dup_path)
+FileUtils.move # or rename
+FileUtils.remove
+FileUtils.cd
+FileUtils.pwd
+FileUtils.chown
+FileUtils.chown
+FileUtils.chmod
+FileUtils.touch
+FileUtils.ln
+
+File.exists?(filepath)
+File.exists?('groceries.txt')   # true
+File.file?(filepath)
+File.directory?(filepath)
+File.readable?(filepath)
+File.writable?(filepath)
+File.executable?(filepath)
+File.size(filepath)
+File.dirname(filepath)
+File.basename(filepath)
+File.extname(filepath)
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
-# Item
+# Directories
+
+Dir.mkdir(filepath)
+# or
+require 'fileutils'
+FileUtils.mkdir(filepath)
+
+Dir.delete(filepath)
+Dir.empty?(filepath)
+
+require 'fileutils'
+FileUtils.rmdir(filepath)
+# force:
+FileUtils.rm_r(filepath)
+
+path = File.join('', 'Users', 'name', 'Desktop')
+Dir.chdir(path)
+
+Dir.chdir('rel_dir')
+Dir.chdir('..')
+
+array = Dir.entries(filepath)  # includes '.' and '..'
+
+Dir.entries('.').each do |entry|
+  next if ['.', '..'].include?(entry)
+  puts "#{entry}: " + (File.file?(entry) ? 'file' : 'dir')
+end
+
+# Glob = returns an array of filenames which match a pattern (like regular expression)
+array = Dir.glob('*')
+
+# - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+# CSV, JOSN, YAML, XML
+
+require 'csv'
+CSV.foreach("file.csv") do |row|
+  # some
+end
+
+array_of_arrays = CSV.read("file.csv")
+
+CSV.open('file.csv', 'w') do |csv|
+  csv << ["row", "of", "CSV", "data"]
+end
+
+# https://ruby-doc.org/core-2.7.0/Array.html#method-i-zip
+labels = header.map {|item| item.downcase.gsub(/\s/, '_')}
+new_array = presidents.map do |row|
+  labels.zip(row).to_h
+end
+
+require 'json'
+json = File.read("file.json")
+hash = JSON.parse(json)
+#
+json = JSON.generate(hash)
+json = {'enabled' => true}.to_json
+File.write("file.json", json)
+
+# - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+# ERB
+
+require 'erb'
+template = "The Year is <%= Time.new.year %>."
+renderer = ERB.new(template)
+puts renderer.result
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
