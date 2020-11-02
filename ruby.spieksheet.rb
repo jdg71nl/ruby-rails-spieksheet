@@ -483,7 +483,114 @@ a, s = add_and_subtract(8,3)
 # https://www.linkedin.com/learning/ruby-essential-training-part-2-classes-and-modules/
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
-# Item
+# Classes
+
+# class convention:
+# - class name in Singular (!) and in CapitalizedCamelCase (!)
+
+# Best Practice:
+# - each class in seperate file
+# - all class-files in common folder
+
+# instance convention
+# - variable name in lowercase snake_case
+
+my_string = String.new    # ""
+my_array  = Array.new     # []
+my_hash   = Hash.new      # {}
+
+class ShoppingCart
+end
+shopping_cart = ShoppingCart.new
+
+# instance variables:
+class Animal
+  def make_noise
+    @noise
+  end
+  def set_noise
+    @noise = 'Oink!'
+  end
+end
+pig = Animal.new
+pig.set_noise
+pig.make_noise
+
+# reader and writer methods:
+# note: no access to @class_var from outside instance, must use methods
+# or said differently: methods are the primary way to access data in an instance
+
+# classical way:
+class Animal
+  def get_noise
+    @noise
+  end
+  def set_noise(value)
+    @noise = value
+  end
+end
+
+# Ruby classical:
+class Animal
+  def noise
+    @noise
+  end
+  def noise=(value)
+    @noise = value
+  end
+end
+
+# more compact: attribute methods
+# attr_* methods:
+# attr_reader     = readable only
+# attr_writer     = writable only
+# attr_accessor   = both R/W
+class Animal
+  attr_reader :noise
+end
+#
+class Animal
+  attr_writer :noise
+end
+#
+class Animal
+  attr_accessor :noise
+end
+
+# can mix:
+class Radio
+  attr_reader :volume
+  def volume=(value)
+    return if value < 1 || value > 10
+    @volume = value
+  end
+  def crank_it_up
+    @volume = 11
+    # or use 'self'
+    #self.volume = 11
+  end
+  def volume_status
+    "Current volume: #{@volume}"
+  end
+end
+
+# 'self' refs the current instance from code inside the instance
+
+# Method Access Control
+# - public      # anyone can access (=default)
+# - protected   # only allow access for this class and subclasses
+# - private     # only allow access for this class (not subclasses)
+
+class SomeClass
+  class public_method
+  end
+protected
+  class protected_method
+  end
+private
+  class private_method
+  end
+end
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # Item
