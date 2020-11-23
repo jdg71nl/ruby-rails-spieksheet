@@ -1,6 +1,9 @@
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # https://www.linkedin.com/learning/ruby-essential-training-part-1-the-basics/
 
+# hint sites:
+# - https://code-maven.com/ruby
+
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # variable
 
@@ -28,6 +31,47 @@ my_string = "Hello"
 puts my_string + ' ' + "World!"
 "Yada " * 3 # returns "Yada Yada Yada "
 escaped_string = 'Let\'s escape!'
+
+# interpolation:
+my_interpolation_string = "my_string = #{my_string} "
+
+# regex info:
+# https://www.rubyguides.com/2015/06/ruby-regex/
+if "Do you like cats?" =~ /like/
+  puts
+end
+#
+if "Do you like cats?".match(/like/)
+  puts "Match found!"
+end
+#
+Line = Struct.new(:time, :type, :msg)
+LOG_FORMAT = /(\d{2}:\d{2}) (\w+) (.*)/
+def parse_line(line)
+  line.match(LOG_FORMAT) { |m| Line.new(*m.captures) }
+end
+parse_line("12:41 INFO User has logged in.")
+# This produces objects like this:
+# <struct line="" time="12:41" ,="" type="INFO" msg="User has logged in."> </struct>
+#
+puts /a/.class
+# Regexp
+#
+"this is some string".scan(/\w+/)
+# => ["this", "is", "some", "string"]
+#
+str = "lord of the rings"
+str.gsub(/\w+/) { |w| w.capitalize }
+# => "Lord Of The Rings"
+#
+replacements = {
+  'i' => 'eye', 'e' => 'eei',
+  'a' => 'aya', 'o' => 'oha'}
+word = "Cocoa!55"
+word.gsub(Regexp.union(replacements.keys), replacements)
+#⇒ "Cohacohaaya!55"
+
+
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # array
@@ -1033,6 +1077,27 @@ File.size(filepath)
 File.dirname(filepath)
 File.basename(filepath)
 File.extname(filepath)
+
+# extras:
+
+# read from stdin:
+instring = ""
+while STDIN.gets
+  instring = instring + $_
+end
+
+# access to environment variables:
+my_ppath = ENV['PATH']
+#
+# can also manipulate:
+system("echo $PATH")
+ENV['PATH'] = '/nothing/here'
+system("echo $PATH")
+
+# arguments to ruby script are in: ARGV (array):
+for i in 0 ... ARGV.length
+   puts "#{i} #{ARGV[i]}"
+end
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # Directories
