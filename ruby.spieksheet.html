@@ -51,16 +51,24 @@
   # interpolation:
   my_interpolation_string = "my_string = #{my_string} "
 
+  # encoding: utf8
+  # https://www.rubyguides.com/2019/05/ruby-ascii-unicode/
+  file_string.encode("ASCII", "UTF-8", invalid: :replace, undef: :replace, replace: "")
+
+  # - - - + - - -
   # regex info:
+  # https://ruby-doc.org/core-2.7.2/Regexp.html
+  # https://ruby-doc.org/core-2.7.2/Regexp.html
   # https://www.rubyguides.com/2015/06/ruby-regex/
+
   if "Do you like cats?" =~ /like/
     puts
   end
-  #
+
   if "Do you like cats?".match(/like/)
     puts "Match found!"
   end
-  #
+
   Line = Struct.new(:time, :type, :msg)
   LOG_FORMAT = /(\d{2}:\d{2}) (\w+) (.*)/
   def parse_line(line)
@@ -69,25 +77,33 @@
   parse_line("12:41 INFO User has logged in.")
   # This produces objects like this:
   # <struct line="" time="12:41" ,="" type="INFO" msg="User has logged in."> </struct>
-  #
+
   puts /a/.class
   # Regexp
-  #
+
   "this is some string".scan(/\w+/)
   # => ["this", "is", "some", "string"]
   #
   str = "lord of the rings"
   str.gsub(/\w+/) { |w| w.capitalize }
   # => "Lord Of The Rings"
-  #
+
   replacements = {
     'i' => 'eye', 'e' => 'eei',
     'a' => 'aya', 'o' => 'oha'}
   word = "Cocoa!55"
   word.gsub(Regexp.union(replacements.keys), replacements)
-  #⇒ "Cohacohaaya!55"
+  # "Cohacohaaya!55"
 
+  a = "foo.bar.size.split('.').last"
+  a.split(/\.(?=[\w])/) # the lookahaed pattern (?=[\w]) only matches the dot if followed by a word-character
+  # ["foo", "bar", "size", "split('.')", "last"]
 
+  m = "David 30".match /(?<name>\w+) (?<age>\d+)/
+  m[:age]
+  # => "30"
+  m[:name]
+  # => "David"
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # array
