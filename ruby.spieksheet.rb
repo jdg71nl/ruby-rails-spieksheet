@@ -40,7 +40,7 @@ my_interpolation_string = "my_string = #{my_string} "
 file_string.encode("ASCII", "UTF-8", invalid: :replace, undef: :replace, replace: "")
 
 # - - - + - - -
-# regex info:
+# regex info, Regular Expressions:
 # https://ruby-doc.org/core-2.7.2/Regexp.html
 # https://ruby-doc.org/core-2.7.2/Regexp.html
 # https://www.rubyguides.com/2015/06/ruby-regex/
@@ -60,7 +60,21 @@ def parse_line(line)
 end
 parse_line("12:41 INFO User has logged in.")
 # This produces objects like this:
-# <struct line="" time="12:41" ,="" type="INFO" msg="User has logged in."> </struct>
+# < struct line="" time="12:41" ,="" type="INFO" msg="User has logged in."> < /struct>
+
+# .match() -- # https://ruby-doc.org/core-2.4.0/MatchData.html
+#
+m = /(.)(.)(\d+)(\d)/.match("THX1138.")
+m          #=> #<MatchData "HX1138" 1:"H" 2:"X" 3:"113" 4:"8">
+m[0]       #=> "HX1138"
+m[1, 2]    #=> ["H", "X"]
+m[1..3]    #=> ["H", "X", "113"]
+m[-3, 2]   #=> ["X", "113"]
+#
+m = /(?<foo>a+)b/.match("ccaaab")
+m          #=> #<MatchData "aaab" foo:"aaa">
+m["foo"]   #=> "aaa"
+m[:foo]    #=> "aaa"
 
 puts /a/.class
 # Regexp
