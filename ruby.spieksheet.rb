@@ -60,7 +60,7 @@ def parse_line(line)
 end
 parse_line("12:41 INFO User has logged in.")
 # This produces objects like this:
-# < struct line="" time="12:41" ,="" type="INFO" msg="User has logged in."> < /struct>
+# <struct line="" time="12:41" ,="" type="INFO" msg="User has logged in."> </struct>
 
 # .match() -- # https://ruby-doc.org/core-2.4.0/MatchData.html
 #

@@ -76,19 +76,19 @@
   end
   parse_line("12:41 INFO User has logged in.")
   # This produces objects like this:
-  # < struct line="" time="12:41" ,="" type="INFO" msg="User has logged in."> < /struct>
+  # &lt;struct line="" time="12:41" ,="" type="INFO" msg="User has logged in."&gt; &lt;/struct>
 
   # .match() -- # https://ruby-doc.org/core-2.4.0/MatchData.html
   #
   m = /(.)(.)(\d+)(\d)/.match("THX1138.")
-  m          #=> #<MatchData "HX1138" 1:"H" 2:"X" 3:"113" 4:"8">
+  m          #=> #&lt;MatchData "HX1138" 1:"H" 2:"X" 3:"113" 4:"8">
   m[0]       #=> "HX1138"
   m[1, 2]    #=> ["H", "X"]
   m[1..3]    #=> ["H", "X", "113"]
   m[-3, 2]   #=> ["X", "113"]
   #
-  m = /(?<foo>a+)b/.match("ccaaab")
-  m          #=> #<MatchData "aaab" foo:"aaa">
+  m = /(?&lt;foo>a+)b/.match("ccaaab")
+  m          #=> #&lt;MatchData "aaab" foo:"aaa">
   m["foo"]   #=> "aaa"
   m[:foo]    #=> "aaa"
 
@@ -113,7 +113,7 @@
   a.split(/\.(?=[\w])/) # the lookahaed pattern (?=[\w]) only matches the dot if followed by a word-character
   # ["foo", "bar", "size", "split('.')", "last"]
 
-  m = "David 30".match /(?<name>\w+) (?<age>\d+)/
+  m = "David 30".match /(?&lt;name>\w+) (?&lt;age>\d+)/
   m[:age]
   # => "30"
   m[:name]
@@ -123,8 +123,8 @@
   # array
 
   my_array = [1,2,3, "also a string is allowed"]
-  my_array << 'appended'
-  my_array << ['appended array', 'some more']
+  my_array &lt;&lt; 'appended'
+  my_array &lt;&lt; ['appended array', 'some more']
   my_array[0] = "zero-based index"
   my_array[-1] # returns ["appended array", "some more"]
   my_array[-2] # returns "appended"
@@ -163,7 +163,7 @@
 
   my_boolean = true
   my_boolean = false
-  # comparisons: == < > <= >= ! != && ||
+  # comparisons: == &lt; > &lt;= >= ! != && ||
   [1,2,3].include?(1)     # true
   2.between?(1,5)         # true
   {'a'=>1}.has_key?('a')  # true
@@ -234,7 +234,7 @@
 
   i = 5
   loop do
-    break if i <= 0
+    break if i &lt;= 0
     puts "Countdown: #{i}"
     i -= 1
   end
@@ -246,7 +246,7 @@
   end
   #
   i = 5
-  until i <= 0
+  until i &lt;= 0
     puts "Countdown: #{i}"
     i -= 1
   end
@@ -347,15 +347,15 @@
   fruits = ['banana', 'apple', 'pear']
   fruits.find {|f| f == 'pear' }      # "pear"
   fruits.find {|f| f.length == 5 }    # "apple"
-  (1..10).any? {|n| n <=5 }           # true
-  (1..10).none? {|n| n <=5 }          # false
-  (1..10).all? {|n| n <=5 }           # false
-  (1..10).one? {|n| n <=5 }           # false
+  (1..10).any? {|n| n &lt;=5 }           # true
+  (1..10).none? {|n| n &lt;=5 }          # false
+  (1..10).all? {|n| n &lt;=5 }           # false
+  (1..10).one? {|n| n &lt;=5 }           # false
   (1..10).one? {|n| n ==5 }           # true
 
   #
   numbers = [*1..10]                  # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  numbers.delete_if {|n| n<= 5 }      # [6, 7, 8, 9, 10]
+  numbers.delete_if {|n| n&lt;= 5 }      # [6, 7, 8, 9, 10]
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # Map methods
@@ -424,36 +424,36 @@
   # the memo var can also be a string:
   fruits = ['banana', 'apple', 'pear']
   mash = fruits.inject('') do |memo, fruit|
-    memo << fruit[0]
+    memo &lt;&lt; fruit[0]
   end                         # "bap"
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # Sort methods
 
   # comparison operator ('spaceship operator'):
-  value1 <=> value2  | .sort
+  value1 &lt;=> value2  | .sort
   ------------------ | -----------
   # -1 if less than  | moves left
   #  0 if equal      | stays
   # +1 if more than  | moves right
 
-  [5,8,2,6,1,3].sort {|v1,v2| v1 <=> v2}  # [1, 2, 3, 5, 6, 8]
+  [5,8,2,6,1,3].sort {|v1,v2| v1 &lt;=> v2}  # [1, 2, 3, 5, 6, 8]
 
   # default sort order
   fruits = ['banana', 'apple', 'pear']
   x = fruits.sort                             # ["apple", "banana", "pear"]
 
   x = fruits.sort do |fruit1, fruit2|
-    fruit1.length <=> fruit2.length
+    fruit1.length &lt;=> fruit2.length
   end                                         # ["pear", "apple", "banana"]
 
   x = fruits.sort_by {|fruit| fruit.length}   # ["pear", "apple", "banana"]
 
   hash = {a:4,c:5,b:3}
-  hash.sort {|p1,p2| p1[0] <=> p2[0]}         # [[:a, 4], [:b, 3], [:c, 5]]
+  hash.sort {|p1,p2| p1[0] &lt;=> p2[0]}         # [[:a, 4], [:b, 3], [:c, 5]]
 
   hash = {a:4,c:5,b:3}
-  hash.sort {|p1,p2| p1[1] <=> p2[1]}         # [[:b, 3], [:a, 4], [:c, 5]]
+  hash.sort {|p1,p2| p1[1] &lt;=> p2[1]}         # [[:b, 3], [:a, 4], [:c, 5]]
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # Merge methods
@@ -466,7 +466,7 @@
   # note: block is ONLY called when keys match
   h1.merge(h2) {|key,old,new| new }         # is default
 
-  h1.merge(h2) {|k,o,n| o < n ? o : n }     # {:a=>2, :b=>4, :c=>6, :d=>8}
+  h1.merge(h2) {|k,o,n| o &lt; n ? o : n }     # {:a=>2, :b=>4, :c=>6, :d=>8}
 
   h1.merge(h2) {|k,o,n| o * n }             # {:a=>6, :b=>16, :c=>6, :d=>8}
 
@@ -546,7 +546,7 @@
   # best Practice: explicit return by restating:
   def subtract(n1, n2)
     result = n1 - n2
-    result = 0 if result < 0
+    result = 0 if result &lt; 0
     result
   end
 
@@ -651,7 +651,7 @@
   class Radio
     attr_reader :volume
     def volume=(value)
-      return if value < 1 || value > 10
+      return if value &lt; 1 || value > 10
       @volume = value
     end
     def crank_it_up
@@ -723,7 +723,7 @@
     @@current_animals = []
     def initialize
       @@total_animals += 1
-      @@current_animals << self
+      @@current_animals &lt;&lt; self
     end
     def self.species
       @@species
@@ -756,13 +756,13 @@
     attr_accessor :noise
   end
 
-  class Pig < Animal
+  class Pig &lt; Animal
     def initialize
       @noise = 'Oink!'
     end
   end
 
-  class Cow < Animal
+  class Cow &lt; Animal
     def initialize
       @noise = 'Moo!'
     end
@@ -777,7 +777,7 @@
     end
   end
 
-  class SofaBed < Sofa
+  class SofaBed &lt; Sofa
     @@can_open = true
     attr_accessor :length_opened, :is_open
     def area
@@ -820,16 +820,16 @@
 
   # Date = similar to Time, but includes additional methods, but in STL and need to load
   require 'date'
-  Date.today                    #<Date: 2020-11-02 ((2459156j,0s,0n),+0s,2299161j)>
+  Date.today                    #&lt;Date: 2020-11-02 ((2459156j,0s,0n),+0s,2299161j)>
   Date.today.month              # 11
-  Date.new(2018,10,1)           #<Date: 2018-10-01 ((2458393j,0s,0n),+0s,2299161j)>
+  Date.new(2018,10,1)           #&lt;Date: 2018-10-01 ((2458393j,0s,0n),+0s,2299161j)>
   Date.new(2018,10,1).to_time   # 2018-10-01 00:00:00 +0200
-  Time.now.to_date              #<Date: 2020-11-02 ((2459156j,0s,0n),+0s,2299161j)>
+  Time.now.to_date              #&lt;Date: 2020-11-02 ((2459156j,0s,0n),+0s,2299161j)>
   Date.today.leap?        # true
   Date.today.cweek        # 45
   Date.today.cwday        # 1
-  Date.today.next_day     #<Date: 2020-11-03 ((2459157j,0s,0n),+0s,2299161j)>
-  Date.today.prev_day     #<Date: 2020-11-01 ((2459155j,0s,0n),+0s,2299161j)>
+  Date.today.next_day     #&lt;Date: 2020-11-03 ((2459157j,0s,0n),+0s,2299161j)>
+  Date.today.prev_day     #&lt;Date: 2020-11-01 ((2459155j,0s,0n),+0s,2299161j)>
   Date.today.gregorian?   # true
   Date.today.julian?      # false
 
@@ -838,10 +838,10 @@
   # 'DateTime' is subclass of 'Date' (only use this for historican time, see docs)
   # load is same:
   require 'date'
-  DateTime.now            #<DateTime: 2020-11-02T21:08:58+01:00 ((2459156j,72538s,370498000n),+3600s,2299161j)>
-  DateTime.new(2016,10,1,2,45,0,'+7')   #<DateTime: 2016-10-01T02:45:00+07:00 ((2457662j,71100s,0n),+25200s,2299161j)>
+  DateTime.now            #&lt;DateTime: 2020-11-02T21:08:58+01:00 ((2459156j,72538s,370498000n),+3600s,2299161j)>
+  DateTime.new(2016,10,1,2,45,0,'+7')   #&lt;DateTime: 2016-10-01T02:45:00+07:00 ((2457662j,71100s,0n),+25200s,2299161j)>
   DateTime.now.to_time    # 2020-11-02 21:09:32 +0100
-  Time.now.to_datetime    #<DateTime: 2020-11-02T21:09:35+01:00 ((2459156j,72575s,440158000n),+3600s,2299161j)>
+  Time.now.to_datetime    #&lt;DateTime: 2020-11-02T21:09:35+01:00 ((2459156j,72575s,440158000n),+3600s,2299161j)>
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # Modules : Namespacing
@@ -946,7 +946,7 @@
   # raise a 'default' exception:
   class Radio
     def volume=(value)
-      if value < 1 || value > 10
+      if value &lt; 1 || value > 10
         raise "Too loud!"
       end
       @volume = value
@@ -960,14 +960,14 @@
   end
 
   # create and raise custom exception class:
-  class TooLoudError < StandardError
+  class TooLoudError &lt; StandardError
     def initialize(msg=nil)
       super(msg || "Too loud!")
     end
   end
   class Radio
     def volume=(value)
-      if value < 1 || value > 10
+      if value &lt; 1 || value > 10
         raise TooLoudError
       end
       @volume = value
@@ -981,7 +981,7 @@
   end
 
   # create and raise custom exception class WITH extra info:
-  class TooLoudError < StandardError
+  class TooLoudError &lt; StandardError
     attr_reader :volume
     def initialize(value, msg=nil)
       super(msg || "Too loud!")
@@ -990,7 +990,7 @@
   end
   class Radio
     def volume=(value)
-      if value < 1 || value > 10
+      if value &lt; 1 || value > 10
         raise TooLoudError.new(value)
       end
       @volume = value
@@ -1013,7 +1013,7 @@
   print "string adds no newline, so do it yourself!\n"
   read = gets.chomp
 
-  # Class File < IO
+  # Class File &lt; IO
 
   # instead of: /shared/lib/myfile.rb
   # instead of: C:\shared\lib\myfile.rb
@@ -1041,7 +1041,7 @@
   file.puts "Grocery List"
   file.print "+ butter\n"
   file.write "+ milk\n"
-  file << "+ sugar\n"
+  file &lt;&lt; "+ sugar\n"
   file.close
 
   # read from a file (by characters):
@@ -1188,7 +1188,7 @@
   array_of_arrays = CSV.read("file.csv")
 
   CSV.open('file.csv', 'w') do |csv|
-    csv << ["row", "of", "CSV", "data"]
+    csv &lt;&lt; ["row", "of", "CSV", "data"]
   end
 
   # https://ruby-doc.org/core-2.7.0/Array.html#method-i-zip
@@ -1209,7 +1209,7 @@
   # ERB
 
   require 'erb'
-  template = "The Year is <%= Time.new.year %>."
+  template = "The Year is &lt;%= Time.new.year %>."
   renderer = ERB.new(template)
   puts renderer.result
 
