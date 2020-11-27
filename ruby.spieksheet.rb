@@ -103,6 +103,23 @@ m[:age]
 m[:name]
 # => "David"
 
+# Look Ahead & Look Behind
+(?=pat) 	Positive lookahead
+(?<=pat) 	Positive lookbehind
+(?!pat) 	Negative lookahead
+(?<!pat) 	Negative lookbehind
+#
+def number_after_word?(str)
+  !!(str =~ /(?<=\w) (\d+)/)
+end
+number_after_word?("Grade 99")
+
+# Regex Options
+"abc".match?(/[A-Z]/i)
+i 	ruby regex case insensitive
+m 	dot matches newline
+x 	ignore whitespace
+
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # array
 

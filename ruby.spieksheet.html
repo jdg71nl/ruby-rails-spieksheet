@@ -76,35 +76,35 @@
   end
   parse_line("12:41 INFO User has logged in.")
   # This produces objects like this:
-  # &lt;struct line="" time="12:41" ,="" type="INFO" msg="User has logged in."&gt; &lt;/struct>
+  # &lt;struct line="" time="12:41" ,="" type="INFO" msg="User has logged in."&gt; &lt;/struct&gt;
 
   # .match() -- # https://ruby-doc.org/core-2.4.0/MatchData.html
   #
   m = /(.)(.)(\d+)(\d)/.match("THX1138.")
-  m          #=> #&lt;MatchData "HX1138" 1:"H" 2:"X" 3:"113" 4:"8">
-  m[0]       #=> "HX1138"
-  m[1, 2]    #=> ["H", "X"]
-  m[1..3]    #=> ["H", "X", "113"]
-  m[-3, 2]   #=> ["X", "113"]
+  m          #=&gt; #&lt;MatchData "HX1138" 1:"H" 2:"X" 3:"113" 4:"8"&gt;
+  m[0]       #=&gt; "HX1138"
+  m[1, 2]    #=&gt; ["H", "X"]
+  m[1..3]    #=&gt; ["H", "X", "113"]
+  m[-3, 2]   #=&gt; ["X", "113"]
   #
-  m = /(?&lt;foo>a+)b/.match("ccaaab")
-  m          #=> #&lt;MatchData "aaab" foo:"aaa">
-  m["foo"]   #=> "aaa"
-  m[:foo]    #=> "aaa"
+  m = /(?&lt;foo&gt;a+)b/.match("ccaaab")
+  m          #=&gt; #&lt;MatchData "aaab" foo:"aaa"&gt;
+  m["foo"]   #=&gt; "aaa"
+  m[:foo]    #=&gt; "aaa"
 
   puts /a/.class
   # Regexp
 
   "this is some string".scan(/\w+/)
-  # => ["this", "is", "some", "string"]
+  # =&gt; ["this", "is", "some", "string"]
   #
   str = "lord of the rings"
   str.gsub(/\w+/) { |w| w.capitalize }
-  # => "Lord Of The Rings"
+  # =&gt; "Lord Of The Rings"
 
   replacements = {
-    'i' => 'eye', 'e' => 'eei',
-    'a' => 'aya', 'o' => 'oha'}
+    'i' =&gt; 'eye', 'e' =&gt; 'eei',
+    'a' =&gt; 'aya', 'o' =&gt; 'oha'}
   word = "Cocoa!55"
   word.gsub(Regexp.union(replacements.keys), replacements)
   # "Cohacohaaya!55"
@@ -113,11 +113,28 @@
   a.split(/\.(?=[\w])/) # the lookahaed pattern (?=[\w]) only matches the dot if followed by a word-character
   # ["foo", "bar", "size", "split('.')", "last"]
 
-  m = "David 30".match /(?&lt;name>\w+) (?&lt;age>\d+)/
+  m = "David 30".match /(?&lt;name&gt;\w+) (?&lt;age&gt;\d+)/
   m[:age]
-  # => "30"
+  # =&gt; "30"
   m[:name]
-  # => "David"
+  # =&gt; "David"
+
+  # Look Ahead & Look Behind
+  (?=pat) 	Positive lookahead
+  (?&lt;=pat) 	Positive lookbehind
+  (?!pat) 	Negative lookahead
+  (?&lt;!pat) 	Negative lookbehind
+  #
+  def number_after_word?(str)
+    !!(str =~ /(?&lt;=\w) (\d+)/)
+  end
+  number_after_word?("Grade 99")
+
+  # Regex Options
+  "abc".match?(/[A-Z]/i)
+  i 	ruby regex case insensitive
+  m 	dot matches newline
+  x 	ignore whitespace
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # array
@@ -136,7 +153,7 @@
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # hash
 
-  my_hash = {'key1' => 'value1', 'key2' => 'value2'}
+  my_hash = {'key1' =&gt; 'value1', 'key2' =&gt; 'value2'}
   my_hash.keys
   my_hash.values
   my_hash['key1'] = 'new value1'
@@ -147,7 +164,7 @@
 
   # Symbol is kind of 'read-only-string', start with colon, no delimiters, used as keys in hash
   :my_symbol.class # returns Symbol
-  my_hash = {"string_key" => "value1", :symbol_key => "value2"}
+  my_hash = {"string_key" =&gt; "value1", :symbol_key =&gt; "value2"}
   my_hash["string_key"] # returns "value1"
   my_hash[:symbol_key]  # returns "value2"
   # symbols are global unique instance-like things:
@@ -155,7 +172,7 @@
   "string".object_id  # 70253774744700
   :symbol.object_id   # 881628
   :symbol.object_id   # 881628
-  equivalent_hash = {:low => 2, :high => 8, :avg => 6} # rocket notation
+  equivalent_hash = {:low =&gt; 2, :high =&gt; 8, :avg =&gt; 6} # rocket notation
   equivalent_hash = {low: 2, high: 8, avg: 6}  # shorthand notation
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
@@ -163,12 +180,12 @@
 
   my_boolean = true
   my_boolean = false
-  # comparisons: == &lt; > &lt;= >= ! != && ||
+  # comparisons: == &lt; &gt; &lt;= &gt;= ! != && ||
   [1,2,3].include?(1)     # true
   2.between?(1,5)         # true
-  {'a'=>1}.has_key?('a')  # true
-  {'a'=>1}.has_key?(:a)   # false
-  {'a'=>1}.has_value?(1)  # true
+  {'a'=&gt;1}.has_key?('a')  # true
+  {'a'=&gt;1}.has_key?(:a)   # false
+  {'a'=&gt;1}.has_value?(1)  # true
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # range
@@ -240,7 +257,7 @@
   end
   #
   i = 5
-  while i > 0
+  while i &gt; 0
     puts "Countdown: #{i}"
     i -= 1
   end
@@ -414,7 +431,7 @@
   # the memo var can also be a string:
   fruits = ['banana', 'apple', 'pear']
   longest = fruits.inject do |memo, fruit|
-    if fruit.length > memo.length
+    if fruit.length &gt; memo.length
       fruit
     else
       memo                    # restate memo to remeber it
@@ -431,44 +448,44 @@
   # Sort methods
 
   # comparison operator ('spaceship operator'):
-  value1 &lt;=> value2  | .sort
+  value1 &lt;=&gt; value2  | .sort
   ------------------ | -----------
   # -1 if less than  | moves left
   #  0 if equal      | stays
   # +1 if more than  | moves right
 
-  [5,8,2,6,1,3].sort {|v1,v2| v1 &lt;=> v2}  # [1, 2, 3, 5, 6, 8]
+  [5,8,2,6,1,3].sort {|v1,v2| v1 &lt;=&gt; v2}  # [1, 2, 3, 5, 6, 8]
 
   # default sort order
   fruits = ['banana', 'apple', 'pear']
   x = fruits.sort                             # ["apple", "banana", "pear"]
 
   x = fruits.sort do |fruit1, fruit2|
-    fruit1.length &lt;=> fruit2.length
+    fruit1.length &lt;=&gt; fruit2.length
   end                                         # ["pear", "apple", "banana"]
 
   x = fruits.sort_by {|fruit| fruit.length}   # ["pear", "apple", "banana"]
 
   hash = {a:4,c:5,b:3}
-  hash.sort {|p1,p2| p1[0] &lt;=> p2[0]}         # [[:a, 4], [:b, 3], [:c, 5]]
+  hash.sort {|p1,p2| p1[0] &lt;=&gt; p2[0]}         # [[:a, 4], [:b, 3], [:c, 5]]
 
   hash = {a:4,c:5,b:3}
-  hash.sort {|p1,p2| p1[1] &lt;=> p2[1]}         # [[:b, 3], [:a, 4], [:c, 5]]
+  hash.sort {|p1,p2| p1[1] &lt;=&gt; p2[1]}         # [[:b, 3], [:a, 4], [:c, 5]]
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # Merge methods
 
   h1 = {a:2, b:4, c:6}
   h2 = {a:3, b:4, d:8}
-  h1.merge(h2)          # {:a=>3, :b=>4, :c=>6, :d=>8}
-  h2.merge(h1)          # {:a=>2, :b=>4, :c=>6, :d=>8}
+  h1.merge(h2)          # {:a=&gt;3, :b=&gt;4, :c=&gt;6, :d=&gt;8}
+  h2.merge(h1)          # {:a=&gt;2, :b=&gt;4, :c=&gt;6, :d=&gt;8}
 
   # note: block is ONLY called when keys match
   h1.merge(h2) {|key,old,new| new }         # is default
 
-  h1.merge(h2) {|k,o,n| o &lt; n ? o : n }     # {:a=>2, :b=>4, :c=>6, :d=>8}
+  h1.merge(h2) {|k,o,n| o &lt; n ? o : n }     # {:a=&gt;2, :b=&gt;4, :c=&gt;6, :d=&gt;8}
 
-  h1.merge(h2) {|k,o,n| o * n }             # {:a=>6, :b=>16, :c=>6, :d=>8}
+  h1.merge(h2) {|k,o,n| o * n }             # {:a=&gt;6, :b=&gt;16, :c=&gt;6, :d=&gt;8}
 
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
@@ -555,7 +572,7 @@
   def add_and_subtract(n1, n2)
     add = n1 + n2
     sub = n1 - n2
-    {:add => add, :sub => sub}
+    {:add =&gt; add, :sub =&gt; sub}
   end
   result = add_and_subtract(8,3)
   a = result[:add]
@@ -651,7 +668,7 @@
   class Radio
     attr_reader :volume
     def volume=(value)
-      return if value &lt; 1 || value > 10
+      return if value &lt; 1 || value &gt; 10
       @volume = value
     end
     def crank_it_up
@@ -787,7 +804,7 @@
     end
   end
 
-  irb>
+  irb&gt;
   sof = SofaBed.new
   sof.width = 2
   sof.length = 3
@@ -820,16 +837,16 @@
 
   # Date = similar to Time, but includes additional methods, but in STL and need to load
   require 'date'
-  Date.today                    #&lt;Date: 2020-11-02 ((2459156j,0s,0n),+0s,2299161j)>
+  Date.today                    #&lt;Date: 2020-11-02 ((2459156j,0s,0n),+0s,2299161j)&gt;
   Date.today.month              # 11
-  Date.new(2018,10,1)           #&lt;Date: 2018-10-01 ((2458393j,0s,0n),+0s,2299161j)>
+  Date.new(2018,10,1)           #&lt;Date: 2018-10-01 ((2458393j,0s,0n),+0s,2299161j)&gt;
   Date.new(2018,10,1).to_time   # 2018-10-01 00:00:00 +0200
-  Time.now.to_date              #&lt;Date: 2020-11-02 ((2459156j,0s,0n),+0s,2299161j)>
+  Time.now.to_date              #&lt;Date: 2020-11-02 ((2459156j,0s,0n),+0s,2299161j)&gt;
   Date.today.leap?        # true
   Date.today.cweek        # 45
   Date.today.cwday        # 1
-  Date.today.next_day     #&lt;Date: 2020-11-03 ((2459157j,0s,0n),+0s,2299161j)>
-  Date.today.prev_day     #&lt;Date: 2020-11-01 ((2459155j,0s,0n),+0s,2299161j)>
+  Date.today.next_day     #&lt;Date: 2020-11-03 ((2459157j,0s,0n),+0s,2299161j)&gt;
+  Date.today.prev_day     #&lt;Date: 2020-11-01 ((2459155j,0s,0n),+0s,2299161j)&gt;
   Date.today.gregorian?   # true
   Date.today.julian?      # false
 
@@ -838,10 +855,10 @@
   # 'DateTime' is subclass of 'Date' (only use this for historican time, see docs)
   # load is same:
   require 'date'
-  DateTime.now            #&lt;DateTime: 2020-11-02T21:08:58+01:00 ((2459156j,72538s,370498000n),+3600s,2299161j)>
-  DateTime.new(2016,10,1,2,45,0,'+7')   #&lt;DateTime: 2016-10-01T02:45:00+07:00 ((2457662j,71100s,0n),+25200s,2299161j)>
+  DateTime.now            #&lt;DateTime: 2020-11-02T21:08:58+01:00 ((2459156j,72538s,370498000n),+3600s,2299161j)&gt;
+  DateTime.new(2016,10,1,2,45,0,'+7')   #&lt;DateTime: 2016-10-01T02:45:00+07:00 ((2457662j,71100s,0n),+25200s,2299161j)&gt;
   DateTime.now.to_time    # 2020-11-02 21:09:32 +0100
-  Time.now.to_datetime    #&lt;DateTime: 2020-11-02T21:09:35+01:00 ((2459156j,72575s,440158000n),+3600s,2299161j)>
+  Time.now.to_datetime    #&lt;DateTime: 2020-11-02T21:09:35+01:00 ((2459156j,72575s,440158000n),+3600s,2299161j)&gt;
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # Modules : Namespacing
@@ -922,7 +939,7 @@
     puts "ZeroDivisionError handled"
   rescue TypeError, ArgumentError
     puts "TypeError or ArgumentError handled"
-  rescue => e
+  rescue =&gt; e
     puts "#{e.class} handled"
   end
 
@@ -946,7 +963,7 @@
   # raise a 'default' exception:
   class Radio
     def volume=(value)
-      if value &lt; 1 || value > 10
+      if value &lt; 1 || value &gt; 10
         raise "Too loud!"
       end
       @volume = value
@@ -955,7 +972,7 @@
   begin
     r = Radio.new
     r.volume = 20
-  rescue RunTimeError => e
+  rescue RunTimeError =&gt; e
     puts e.message
   end
 
@@ -967,7 +984,7 @@
   end
   class Radio
     def volume=(value)
-      if value &lt; 1 || value > 10
+      if value &lt; 1 || value &gt; 10
         raise TooLoudError
       end
       @volume = value
@@ -976,7 +993,7 @@
   begin
     r = Radio.new
     r.volume = 20
-  rescue TooLoudError => e
+  rescue TooLoudError =&gt; e
     puts e.message
   end
 
@@ -990,7 +1007,7 @@
   end
   class Radio
     def volume=(value)
-      if value &lt; 1 || value > 10
+      if value &lt; 1 || value &gt; 10
         raise TooLoudError.new(value)
       end
       @volume = value
@@ -999,7 +1016,7 @@
   begin
     r = Radio.new
     r.volume = 20
-  rescue TooLoudError => e
+  rescue TooLoudError =&gt; e
     puts "Volume #{e.volume}: #{e.message}"
   end
 
@@ -1202,14 +1219,14 @@
   hash = JSON.parse(json)
   #
   json = JSON.generate(hash)
-  json = {'enabled' => true}.to_json
+  json = {'enabled' =&gt; true}.to_json
   File.write("file.json", json)
 
   # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
   # ERB
 
   require 'erb'
-  template = "The Year is &lt;%= Time.new.year %>."
+  template = "The Year is &lt;%= Time.new.year %&gt;."
   renderer = ERB.new(template)
   puts renderer.result
 
