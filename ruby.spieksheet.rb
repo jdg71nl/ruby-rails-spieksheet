@@ -1,4 +1,10 @@
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+# https://github.com/jdg71nl/ruby-rails-spieksheet/
+# https://github.com/jdg71nl/ruby-rails-spieksheet/blob/master/ruby.spieksheet.rb
+# https://jdg71nl.github.io/ruby-rails-spieksheet/
+# https://jdg71nl.github.io/ruby-rails-spieksheet/ruby.spieksheet.html
+# - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
+#
 # https://www.linkedin.com/learning/ruby-essential-training-part-1-the-basics/
 
 # hint sites:
@@ -142,6 +148,16 @@ my_hash.keys
 my_hash.values
 my_hash['key1'] = 'new value1'
 my_hash.to_a # convert to array, returns: [["key1", "new value1"], ["key2", "value2"]]
+
+my_hash = { :foo => 'bar', :baz => 'qux' }
+my_struct = Struct.new(*my_hash.keys).new(*my_hash.values)
+my_struct.baz
+=> "qux"
+my_struct.foo
+=> "bar"
+#
+# or if you need to map the keys to symbols:
+my_struct = Struct.new(*my_hash.keys.map { |str| str.to_sym }).new(*my_hash.values)
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # symbol
@@ -700,6 +716,29 @@ class Animal
   end
 end
 pig = Animal.new({name: 'Oink!'})
+
+# https://ruby-doc.org/core-2.7.2/Object.html#method-i-instance_variable_get
+# https://ruby-doc.org/core-2.7.2/Object.html#method-i-instance_variable_set
+# https://ruby-doc.org/core-2.7.2/Object.html#method-i-instance_variables
+#
+class Machine
+  def initialize
+    @water = "yes"
+    @steam = "yes"
+  end
+end
+machine = Machine.new
+machine.instance_variables
+=> [:@water, :@steam]
+machine.instance_variable_get(:@water)
+=> "yes"
+
+my_hash = { :foo => 'bar', :baz => 'qux' }
+my_hash.each { |name, value| instance_variable_set(name, value) }
+# equivalent:
+my_hash.each &method(:instance_variable_set)
+# if the instance variable names are missing the "@", you'll need to add them, so it would be more like:
+my_hash.each { |name, value| instance_variable_set("@#{name}", value) }
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # Class methods and attributes (not Instance methods!)
