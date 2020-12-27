@@ -3,20 +3,109 @@
 <head>
   <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Rails.SS</title>
-  <link rel="stylesheet" href="styles/default.css"> <!-- https://highlightjs.org/usage/ -->
-  <script src="highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();</script>
+  <!-- <link rel="stylesheet" href="styles/default.css"> < ! -- https://highlightjs.org/usage/ - - >
+  <script src="highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();</script> -->
 </head>
 <style>
-  body { margin:0; border:0; padding: 1em; font-family: tahoma, Arial, verdana, "Lucida Sans Unicode"; font-size: 1em; }
+  body { margin:0; border:0; padding: 1em; font-family: menlo, monospace; font-size: 1em; }
   pre { border: solid 1px black;}
 </style>
 <body>
   <h3>Rails.SS (SpiekSheet)</h3>
   <!-- - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - -->
 
-<pre><code class="ruby">
-  some
-</code></pre>
+<h2>Ruby on Rails (RoR)</h2>
+
+# https://rubyonrails.org/
+# https://guides.rubyonrails.org/v5.2/
+# https://guides.rubyonrails.org/v5.2/active_record_migrations.html
+
+<h2>Create Project</h2>
+
+> cd /home/jdg/dev/netadmin-ruby
+> rm -rf NetAdmin
+> rails new NetAdmin --database=postgresql --skip-git
+> cd NetAdmin
+
+<h2>Prepare DB</h2>
+
+> vi config/database.yml
+default: &default
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  encoding: UTF-8
+  host: localhost
+development:
+  <<: *default
+  database: db_netadmin_dev
+  username: netadmin_user
+  password: zuF65-88hYW
+test:
+  <<: *default
+  database: db_netadmin_tst
+  username: netadmin_user
+  password: zuF65-88hYW
+production:
+  <<: *default
+  database: db_netadmin_pro
+  username: netadmin_user
+  password: zuF65-88hYW
+
+<h2>Create Project (manual)</h2>
+
+
+> sudo -u postgres -i
+dropdb db_netadmin_dev
+dropdb db_netadmin_tst
+dropdb db_netadmin_pro
+# > createuser --pwprompt netadmin_user
+# # pwd: zuF65-88hYW
+createdb -O netadmin_user db_netadmin_dev
+createdb -O netadmin_user db_netadmin_tst
+createdb -O netadmin_user db_netadmin_pro
+#
+> psql  # (do we need this?)
+postgres=#> grant all privileges on database db_netadmin_dev to netadmin_user;
+postgres=#> grant all privileges on database db_netadmin_tst to netadmin_user;
+postgres=#> grant all privileges on database db_netadmin_pro to netadmin_user;
+#
+> psql -d db_netadmin_dev -h localhost -U netadmin_user
+> psql -d db_netadmin_tst -h localhost -U netadmin_user
+> psql -d db_netadmin_pro -h localhost -U netadmin_user
+
+<h2>Create Models (and Controllers/Views)</h2>
+
+# now generate models/tables with no references yet, will add them in migrate-file and model in one-go, then migrate:
+rails generate scaffold switch name:string mytype:string ipaddress:string nrports:integer
+rails generate scaffold port name:string mytype:string 
+rails generate scaffold link name:string mytype:string 
+rails generate scaffold path name:string mytype:string 
+rails generate scaffold service name:string mytype:string 
+rails generate scaffold customer name:string mytype:string 
+rails generate scaffold provider name:string mytype:string 
+rails generate scaffold location name:string mytype:string 
+rails db:migrate
+
+<h2>ActiveRecord:DB setup</h2>
+
+# https://guides.rubyonrails.org/v5.2/active_record_migrations.html
+# https://stackify.com/rails-migration-a-complete-guide/
+# https://gist.github.com/harrietty/92c5da9505b503e40a16ae52fed0c8ca
+#
+bin/rails db:setup
+bin/rails db:drop
+bin/rails db:reset # equivalent to: bin/rails db:drop db:setup
+#
+bin/rails db:migrate
+bin/rails db:migrate VERSION=20080906120000
+bin/rails db:migrate RAILS_ENV=test # default = development
+bin/rails db:migrate:status 
+bin/rails db:version
+bin/rails db:rollback
+#
+bin/rails db:seed
+
+<hr>
 
 <!-- - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - -->
 <!--
