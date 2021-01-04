@@ -180,7 +180,7 @@ equivalent_hash = {low: 2, high: 8, avg: 6}  # shorthand notation
 
 my_boolean = true
 my_boolean = false
-# comparisons: == < > <= >= ! != && ||
+# comparisons: == < > <= >= ! != && ||    # note: instead of 'and', 'or' ruby uses: && ||
 [1,2,3].include?(1)     # true
 2.between?(1,5)         # true
 {'a'=>1}.has_key?('a')  # true
@@ -199,7 +199,7 @@ exclusive_range = *1...10  # convert to array: [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ('a'..'m').include?('g')  # true
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
-# nil
+# nil   # note: ruby does not use 'null'
 
 my_nil_var = nil
 my_nil_var == false  # false
