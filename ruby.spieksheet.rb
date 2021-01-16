@@ -740,6 +740,11 @@ my_hash.each &method(:instance_variable_set)
 # if the instance variable names are missing the "@", you'll need to add them, so it would be more like:
 my_hash.each { |name, value| instance_variable_set("@#{name}", value) }
 
+# dynamically send message (method):
+instance = MyClass.new
+method_name = "my_method"
+instance.public_send(method_name)  # effects: MyClass.my_method
+
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # Class methods and attributes (not Instance methods!)
 
@@ -788,6 +793,10 @@ class Animal
 
   end
 end
+
+# call 'class method' from instance:
+my_instance = MyClass.new
+my_instance.class.my_method  # effects: MyClass.my_method
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # Class Inheritance
@@ -855,6 +864,9 @@ Time.now.nsec       # 278155000
 Time.now.zone       # "CET"
 Time.now.dst?     #false
 Time.now.gmtime  # 2020-11-02 20:00:13 UTC
+  
+# https://www.tutorialspoint.com/ruby/ruby_date_time.htm
+Time.now.strftime("%a %Y-%b-%d %H:%M:%S %Z")
 
 # Date
 
