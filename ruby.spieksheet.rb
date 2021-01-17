@@ -740,6 +740,11 @@ my_hash.each &method(:instance_variable_set)
 # if the instance variable names are missing the "@", you'll need to add them, so it would be more like:
 my_hash.each { |name, value| instance_variable_set("@#{name}", value) }
 
+# get Class from a string holding the classname:
+# https://stackoverflow.com/questions/5924495/how-do-i-create-a-class-instance-from-a-string-name-in-ruby
+# DOES NOT WORK: class_ref = Object.const_get(class_name)
+class_ref = class_name.constantize
+
 # dynamically send message (method):
 instance = MyClass.new
 method_name = "my_method"
