@@ -247,7 +247,8 @@ bin/rails db:rollback
 #
 bin/rails db:seed
 #
-bin/rake db:schema:load   # delete db contents and rebuild using migrations (but does not 'drop' + 'create' )
+# delete db contents and rebuild using migrations (but does not 'drop' + 'create' )
+bin/rake db:schema:load
 
 # - - - - - - + + + - - - - - - 
 # Drifting Ruby: Episode #127 - ActiveRecord Tricks
