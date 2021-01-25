@@ -92,6 +92,11 @@ str = "lord of the rings"
 str.gsub(/\w+/) { |w| w.capitalize }
 # => "Lord Of The Rings"
 
+# mods
+str.downcase
+str.upcase
+str.capitalize
+
 replacements = {
   'i' => 'eye', 'e' => 'eei',
   'a' => 'aya', 'o' => 'oha'}
