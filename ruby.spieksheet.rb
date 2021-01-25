@@ -131,6 +131,8 @@ i 	ruby regex case insensitive
 m 	dot matches newline
 x 	ignore whitespace
 
+puts "remark for file #{__FILE__} on line #{__LINE__} : gotyah!"
+
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # array
 
