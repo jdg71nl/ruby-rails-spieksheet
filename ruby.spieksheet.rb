@@ -34,7 +34,7 @@ MY_CONSTANT = 90 # convention is all-caps, but Ruby only inspects first letter t
 # string
 
 my_string = "Hello"
-puts my_string + ' ' + "World!"
+puts my_string + ' ' + "World!"     # concatenate strings with + operator
 "Yada " * 3 # returns "Yada Yada Yada "
 escaped_string = 'Let\'s escape!'
 
