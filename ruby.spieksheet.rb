@@ -43,7 +43,11 @@ my_interpolation_string = "my_string = #{my_string} "
 
 # encoding: utf8
 # https://www.rubyguides.com/2019/05/ruby-ascii-unicode/
+# from UTF-8 to ASCII:
 file_string.encode("ASCII", "UTF-8", invalid: :replace, undef: :replace, replace: "")
+# from iso-8859-1 to UTF-8:
+line.encode!("UTF-8", "iso-8859-1", invalid: :replace, undef: :replace, replace: "")
+
 
 # - - - + - - -
 # regex info, Regular Expressions:
@@ -133,9 +137,16 @@ x 	ignore whitespace
 
 puts "remark for file #{__FILE__} on line #{__LINE__} : gotyah!"
 
+# get number from (part of) string:
+cpe_digits = cpe_name.scan(/\d+/).first || "0"
+cpe_number = cpe_digits.to_i
+
+my_string_length = my_string.length # alias: .size
+
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # array
 
+my_empty_array = []
 my_array = [1,2,3, "also a string is allowed"]
 my_array << 'appended'
 my_array << ['appended array', 'some more']
@@ -146,10 +157,14 @@ my_array.length # synonym: my_array.size
 my_array.reverse! # use '!' to save the string in place
 my_array.push # .pop .shift .unshift
 [1,2,3] + [4,5,6] # concatenate arrays
+if !my_array.include?("appended") # 'contains'
+  my_array << "appended"
+end
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # hash
 
+my_empty_hash = {}
 my_hash = {'key1' => 'value1', 'key2' => 'value2'}
 my_hash.keys
 my_hash.values
@@ -162,9 +177,46 @@ my_struct.baz
 => "qux"
 my_struct.foo
 => "bar"
-#
+
 # or if you need to map the keys to symbols:
 my_struct = Struct.new(*my_hash.keys.map { |str| str.to_sym }).new(*my_hash.values)
+
+# when maps does not work, this works anyway (maybe more verbose):
+def my_fund(input_list, select_key, select_value)
+  return_list = []
+  input_list.each do |my_hash|
+      value = my_hash[select_key] || ""
+      if value == select_value
+          return_list << my_hash
+      end
+  end
+  # return by stating:
+  return_list
+end
+
+# another .map example:
+csv_list.map! do |a_csv_hash|
+  cpe_name = a_csv_hash["cpe_name"]
+  cpe_list = select_hash_items_by_key_value(csv_list, "cpe_name", cpe_name)
+  a_csv_hash["vlan_count"] = cpe_list.size
+  provider_list = select_scalar_items_by_key(cpe_list, "provider")
+  if provider_list.size > 0
+    a_csv_hash["sp_count"] = provider_list.uniq.size
+  else
+    a_csv_hash["sp_count"] = 0
+  end
+  # return hash to update in list:
+  a_csv_hash
+end
+
+
+# https://stackoverflow.com/questions/49891355/ruby-create-hash-with-keys-and-values-as-arrays
+csv_hash = Hash[$header_list.zip(col_list)] 
+
+# iterate over:
+my_hash.each do |key|
+  value = my_hash[key] || ""
+end
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # symbol
@@ -1191,9 +1243,8 @@ File.extname(filepath)
 # extras:
 
 # read from stdin:
-instring = ""
 while STDIN.gets
-  instring = instring + $_
+  line = $_.chomp
 end
 
 # access to environment variables:
@@ -1260,6 +1311,31 @@ labels = header.map {|item| item.downcase.gsub(/\s/, '_')}
 new_array = presidents.map do |row|
   labels.zip(row).to_h
 end
+
+# manually parse CSV in Windows format: "col01";"col02";"col3"
+col_list = line.split(';').map {|col| col.delete_prefix('"').delete_suffix('"') }
+
+# manually generate CSV:
+def hash_to_csv_string(a_csv_hash)
+  if !a_csv_hash.is_a?(Hash) 
+      return ""
+  end
+  line_array = []
+  $header_list.each do |key|
+      value = a_csv_hash[key] || ""
+      if value.is_a?(Integer) 
+          value = value.to_s
+      end
+      space = $header_width[key] - value.size + 1
+      space_string = " " * (space>1?space:1)
+      line_array << "\"#{value}\""
+  end
+  line = line_array.join(";")
+  # return
+  line
+end
+
+# JSON
 
 require 'json'
 json = File.read("file.json")
