@@ -327,6 +327,16 @@ until i <= 0
   i -= 1
 end
 
+# continue = 'break'
+while some>thing
+  if condition?
+    break
+  end
+end
+
+# not difference between 'redo' vs. 'retry' :
+https://rubyquicktips.com/post/1122838559/redo-vs-retry
+
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # iterator
 
