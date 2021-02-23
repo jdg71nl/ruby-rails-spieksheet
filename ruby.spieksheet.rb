@@ -161,6 +161,11 @@ if !my_array.include?("appended") # 'contains'
   my_array << "appended"
 end
 
+my_array.push    element_added_at_end        # alias: "<<"
+my_array.unshift element_added_at_beginning
+element_removed_from_end       = my_array.pop
+element_removed_from_beginning = my_array.shift
+
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # hash
 
