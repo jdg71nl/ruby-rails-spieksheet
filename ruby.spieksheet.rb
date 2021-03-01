@@ -60,7 +60,7 @@ myString.gsub("PHP", "Ruby")
 
 # - - - + - - -
 # regex info, Regular Expressions:
-# https://ruby-doc.org/core-2.7.2/Regexp.html
+
 # https://ruby-doc.org/core-2.7.2/Regexp.html
 # https://www.rubyguides.com/2015/06/ruby-regex/
 # test your RE online: https://rubular.com/
@@ -98,6 +98,13 @@ m[:foo]    #=> "aaa"
 
 puts /a/.class
 # Regexp
+
+# https://www.rubyguides.com/2019/07/ruby-gsub-method/
+# "3 Awesome Ways To Use Ruby’s Gsub Method"
+
+colors = { "B" => "blue", "G" => "green", "R" => "red" }
+"BBBGR".gsub(/\w/, colors)
+"bluebluebluegreenred"
 
 "this is some string".scan(/\w+/)
 # => ["this", "is", "some", "string"]
