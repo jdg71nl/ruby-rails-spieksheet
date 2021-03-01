@@ -1210,6 +1210,9 @@ puts "string adds newline"
 print "string adds no newline, so do it yourself!\n"
 read = gets.chomp
 
+string_without_trailing_whitespace = string.chomp
+string_without_leading_and_trailing_whitespace = string.strip
+  
 # Class File < IO
 
 # instead of: /shared/lib/myfile.rb
