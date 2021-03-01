@@ -397,7 +397,8 @@ until i <= 0
   i -= 1
 end
 
-# continue = 'break'
+# 'break' continues after loop
+# 'next' continues next iteration in loop
 while some>thing
   if condition?
     break
