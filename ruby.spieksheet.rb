@@ -48,12 +48,22 @@ file_string.encode("ASCII", "UTF-8", invalid: :replace, undef: :replace, replace
 # from iso-8859-1 to UTF-8:
 line.encode!("UTF-8", "iso-8859-1", invalid: :replace, undef: :replace, replace: "")
 
+# https://www.techotopia.com/index.php/Ruby_String_Replacement,_Substitution_and_Insertion
+myString = "Welcome to JavaScript!"
+myString["JavaScript"]= "Ruby"
+puts myString
+=> "Welcome to Ruby!"
+
+myString = "Welcome to PHP Essentials!"
+myString.gsub("PHP", "Ruby")
+=> "Welcome to Ruby Essentials!"
 
 # - - - + - - -
 # regex info, Regular Expressions:
 # https://ruby-doc.org/core-2.7.2/Regexp.html
 # https://ruby-doc.org/core-2.7.2/Regexp.html
 # https://www.rubyguides.com/2015/06/ruby-regex/
+# test your RE online: https://rubular.com/
 
 if "Do you like cats?" =~ /like/
   puts
