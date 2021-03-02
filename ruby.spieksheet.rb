@@ -425,6 +425,13 @@ end
 # not difference between 'redo' vs. 'retry' :
 https://rubyquicktips.com/post/1122838559/redo-vs-retry
 
+# instead of 'array.each {|item| do_something }' , this keeps index:
+#
+for index in (0...array.length)
+  item = array[index]
+  do_something
+end
+
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # iterator
 
