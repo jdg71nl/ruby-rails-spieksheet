@@ -236,9 +236,30 @@ end
 csv_hash = Hash[$header_list.zip(col_list)] 
 
 # iterate over:
-my_hash.each do |key|
-  value = my_hash[key] || ""
+h = { "first_name" => "John", "last_name" => "Doe" }
+h.each do |key, value|
+    puts "#{key} = #{value}"
 end
+# => first_name = John
+#    last_name = Doe
+
+h.each_key do |key|
+  puts key
+end
+# => first_name
+#    last_name
+
+h.each_value do |value|
+    puts value
+end
+# => John
+#    Doe
+
+h.each_with_index do |(key, value), index|
+    puts "index: #{index} | key: #{key} | value: #{value}"
+end
+# => index: 0 | key: first_name | value: John
+#    index: 1 | key: last_name | value: Doe
 
 # - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - - - - - + - - -
 # symbol
